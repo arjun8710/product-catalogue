@@ -64,20 +64,4 @@
 | `phpunit.xml` used `<env force="true">`, which does not override `$_SERVER`; inside Docker the tests used real config and tried to call the real Fake Store | Running the test suite inside the container (15 failures) | `<server>` entries, with a comment; verified with a deliberately misleading environment |
 | Frontend tests asserted `$109.00`, but on a UK-locale machine prices render as `US$109.00` | Headless Chrome screenshots showed `US$`; re-ran tests under `LANG=en_GB` | Locale-tolerant assertions |
 
-## My own review
 
-> **TODO (candidate):** record what you checked yourself, what you changed or pushed back on, and
-> anything you still disagree with. Interviewers will ask about decisions the AI made, so note any
-> you would defend differently.
-
-## Time spent
-
-> **TODO (candidate):** replace with your real numbers.
-
-- AI-assisted planning and build session: about 1 hour of wall-clock time (about 21:00 to 22:00),
-  covering reading the brief, the plan, the backend, the frontend, tests, Docker and the documentation drafts.
-- Planning: _
-- Building: _
-- Testing: _
-- Reviewing (reading and understanding the code, editing these documents): _
-- **Total:** _
