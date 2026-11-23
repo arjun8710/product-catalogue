@@ -1,0 +1,40 @@
+name: product-catalogue
+
+services:
+  # React app served by nginx, which also proxies /api/* to the backend.
+  frontend:
+    build:
+      context: ./frontend
+      target: serve
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+
+  # Laravel JSON API. Not published to the host: the browser reaches it through nginx.
+  backend:
+    build: ./backend
+    env_file:
+      # Optional overrides, e.g. FEATURED_PRODUCT_IDS. Defaults come from backend/.env.example.
+      - path: ./backend/.env
+        required: false
+    environment:
+      MAIL_MAILER: smtp
+      MAIL_HOST: mailpit
+      MAIL_PORT: 1025
+      STOREFRONT_URL: http://localhost:${WEB_PORT:-8080}
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8000/up"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    depends_on:
+      - mailpit
+
+  # Local stand-in for the sales inbox: catches every email the API sends.
+  mailpit:
+    image: axllent/mailpit:v1.33.1
+    ports:
+      - "127.0.0.1:${MAILPIT_PORT:-8025}:8025" # web UI: the "sales inbox"
+      - "127.0.0.1:${MAILPIT_SMTP_PORT:-1025}:1025" # SMTP, for running the API outside Docker

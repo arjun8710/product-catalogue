@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+>
+    <testsuites>
+        <testsuite name="Unit">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory>tests/Feature</directory>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory>app</directory>
+        </include>
+    </source>
+    <php>
+        <!--
+          <server> rather than <env>: Laravel reads $_SERVER first, and <env> (even with
+          force="true") leaves $_SERVER untouched. With <env>, real environment variables,
+          e.g. from docker compose, silently overrode these and tests hit the real Fake Store.
+        -->
+        <server name="APP_ENV" value="testing"/>
+        <server name="APP_MAINTENANCE_DRIVER" value="file"/>
+        <server name="BROADCAST_CONNECTION" value="null"/>
+        <server name="CACHE_STORE" value="array"/>
+        <server name="MAIL_MAILER" value="array"/>
+        <server name="QUEUE_CONNECTION" value="sync"/>
+        <server name="SESSION_DRIVER" value="array"/>
+        <server name="LOG_CHANNEL" value="null"/>
+        <server name="CATALOGUE_SOURCE" value="fakestore"/>
+        <server name="FAKESTORE_BASE_URL" value="https://fakestore.test"/>
+        <server name="FEATURED_PRODUCT_IDS" value="3,5,11,12,18"/>
+        <server name="CATEGORY_TOP_RATED_COUNT" value="3"/>
+        <server name="CATALOGUE_CURRENCY" value="USD"/>
+        <server name="STOREFRONT_URL" value="https://shop.test"/>
+        <server name="SALES_INBOX_ADDRESS" value="sales@example.test"/>
+        <server name="SALES_INBOX_NAME" value="Sales Team"/>
+    </php>
+</phpunit>
